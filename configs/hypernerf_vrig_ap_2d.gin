@@ -1,0 +1,85 @@
+include 'configs/defaults.gin'
+
+max_steps = 250000
+lr_decay_steps = %max_steps
+
+image_scale = 4
+batch_size = 6144
+eval_batch_size = 8096
+init_lr = 0.001
+final_lr = 0.0001
+elastic_init_weight = 0.001
+TrainConfig.lr_schedule = %DEFAULT_LR_SCHEDULE
+
+# Basic model config.
+NerfModel.nerf_trunk_width = 256
+NerfModel.nerf_trunk_depth = 8
+NerfModel.num_coarse_samples = 128
+NerfModel.num_fine_samples = 128
+NerfModel.use_viewdirs = True
+NerfModel.use_posenc_identity = True
+SE3Field.use_posenc_identity = True
+
+NerfModel.nerf_embed_key = 'camera'
+NerfModel.use_rgb_condition = True
+
+# NeRF position encoding configs.
+spatial_point_min_deg = 0
+spatial_point_max_deg = 8
+
+# Hyper configs.
+hyper_num_dims = 2
+hyper_point_min_deg = 0
+hyper_point_max_deg = 1
+NerfModel.hyper_point_min_deg = %hyper_point_min_deg
+NerfModel.hyper_point_max_deg = %hyper_point_max_deg
+
+TrainConfig.hyper_alpha_schedule = %DELAYED_HYPER_ALPHA_SCHED
+
+NerfModel.hyper_slice_method = 'axis_aligned_plane'
+NerfModel.hyper_sheet_mlp_cls = @HyperSheetMLP
+NerfModel.hyper_use_warp_embed = True
+
+hyper_sheet_min_deg = 0
+hyper_sheet_max_deg = 6
+HyperSheetMLP.min_deg = %hyper_sheet_min_deg
+HyperSheetMLP.max_deg = %hyper_sheet_max_deg
+HyperSheetMLP.output_channels = %hyper_num_dims
+TrainConfig.hyper_sheet_alpha_schedule = ('constant', %hyper_sheet_max_deg)
+
+# Warp config.
+NerfModel.use_warp = True
+warp_min_deg = 0
+warp_max_deg = 6
+warp_alpha_steps = 80000
+TrainConfig.warp_alpha_schedule = {
+  'type': 'linear',
+  'initial_value': %warp_min_deg,
+  'final_value': %warp_max_deg,
+  'num_steps': %warp_alpha_steps,
+}
+
+TrainConfig.use_weight_norm = False
+TrainConfig.use_elastic_loss = False
+TrainConfig.use_background_loss = True
+TrainConfig.background_loss_weight = 1.0
+
+TrainConfig.use_warp_reg_loss = False
+TrainConfig.warp_reg_loss_weight = 1e-2
+
+TrainConfig.elastic_reduce_method = 'weight'
+TrainConfig.elastic_loss_weight_schedule = {
+  'type': 'constant',
+  'value': %elastic_init_weight,
+}
+
+
+TrainConfig.print_every = 100
+TrainConfig.log_every = 100
+TrainConfig.histogram_every = 1000
+TrainConfig.save_every = 10000
+
+EvalConfig.num_val_eval = None
+EvalConfig.num_train_eval = None
+EvalConfig.eval_once = False
+EvalConfig.save_output = True

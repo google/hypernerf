@@ -1,0 +1,91 @@
+include 'configs/defaults.gin'
+
+image_scale = 2
+batch_size = 6144
+eval_batch_size = 8096
+
+max_steps = 250000
+lr_decay_steps = 500000
+lr_delay_steps = 10000
+init_lr = 1e-3
+final_lr = 1e-4
+TrainConfig.lr_schedule = %DEFAULT_LR_SCHEDULE
+
+# Dataset config.
+ExperimentConfig.datasource_cls = @InterpDataSource
+InterpDataSource.data_dir = %data_dir
+InterpDataSource.image_scale = %image_scale
+InterpDataSource.interval = 4
+
+# Basic model config.
+NerfModel.num_coarse_samples = 128
+NerfModel.num_fine_samples = 128
+NerfModel.use_viewdirs = True
+NerfModel.norm_type = 'none'
+NerfModel.activation = @jax.nn.relu
+
+NerfModel.use_posenc_identity = True
+SE3Field.use_posenc_identity = True
+
+# NeRF position encoding configs.
+spatial_point_min_deg = 0
+spatial_point_max_deg = 8
+NERF_EASE_ALPHA_SCHEDULE = {
+  'type': 'linear',
+  'initial_value': 6.0,
+  'final_value': %spatial_point_max_deg,
+  'num_steps': 80000,
+}
+
+# Hyper config.
+hyper_num_dims = 2
+hyper_point_min_deg = 0
+hyper_point_max_deg = 1
+NerfModel.hyper_point_min_deg = %hyper_point_min_deg
+NerfModel.hyper_point_max_deg = %hyper_point_max_deg
+TrainConfig.hyper_alpha_schedule = {
+  'type': 'piecewise',
+  'schedules': [
+    (1000, ('constant', 0.0)),
+    (0, ('linear', 0.0, %hyper_point_max_deg, 10000))
+  ],
+}
+
+NerfModel.hyper_slice_method = 'bendy_sheet'
+NerfModel.hyper_sheet_mlp_cls = @HyperSheetMLP
+NerfModel.hyper_use_warp_embed = True
+
+hyper_sheet_min_deg = 0
+hyper_sheet_max_deg = 6
+HyperSheetMLP.min_deg = %hyper_sheet_min_deg
+HyperSheetMLP.max_deg = %hyper_sheet_max_deg
+HyperSheetMLP.output_channels = %hyper_num_dims
+TrainConfig.hyper_sheet_alpha_schedule = ('constant', %hyper_sheet_max_deg)
+
+# Warp config.
+NerfModel.use_warp = True
+warp_min_deg = 0
+warp_max_deg = 6
+warp_alpha_steps = 80000
+TrainConfig.warp_alpha_schedule = {
+  'type': 'linear',
+  'initial_value': %warp_min_deg,
+  'final_value': %warp_max_deg,
+  'num_steps': %warp_alpha_steps,
+}
+
+# Train configs.
+TrainConfig.use_weight_norm = False
+TrainConfig.use_elastic_loss = False
+TrainConfig.use_background_loss = False
+TrainConfig.background_loss_weight = 1.0
+TrainConfig.use_hyper_reg_loss = False
+TrainConfig.hyper_reg_loss_weight = 0.0001
+
+TrainConfig.print_every = 100
+TrainConfig.log_every = 1000
+TrainConfig.histogram_every = 5000
+TrainConfig.save_every = 10000
+
+EvalConfig.eval_once = False
+EvalConfig.save_output = True

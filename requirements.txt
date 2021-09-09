@@ -1,0 +1,18 @@
+absl-py==0.13.0
+flax==0.3.4
+gin-config @ git+https://github.com/google/gin-config@243ba87b3fcfeb2efb4a920b8f19679b61a6f0dc
+imageio==2.9.0
+immutabledict==2.2.0
+jax==0.2.20
+jaxlib==0.1.71+cuda111
+Markdown==3.3.4
+matplotlib==3.4.3
+numpy==1.19.5
+oauthlib==3.1.1
+opencv-python==4.5.3.56
+opt-einsum==3.3.0
+optax==0.0.9
+Pillow==8.3.2
+scipy==1.7.1
+tensorflow==2.6.0
+tqdm==4.62.2
