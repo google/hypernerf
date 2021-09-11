@@ -6,10 +6,27 @@ This is the code for "HyperNeRF: A Higher-Dimensional Representation for Topolog
 * [Paper](https://arxiv.org/abs/2106.13228)
 * [Video](https://www.youtube.com/watch?v=qzgdE_ghkaI)
 
-This codebase contains a re-implementation of Nerfies using [JAX](https://github.com/google/jax),
+This codebase implements HyperNeRF using [JAX](https://github.com/google/jax),
 building on [JaxNeRF](https://github.com/google-research/google-research/tree/master/jaxnerf).
-We have been careful to match implementation details and have reproduced the original
-results presented in the paper.
+
+
+## Demo
+
+We provide an easy-to-get-started demo using Google Colab!
+
+These Colabs will allow you to train a basic version of our method using
+Cloud TPUs (or GPUs) on Google Colab.
+
+Note that due to limited compute resources available, these are not the fully
+featured models and will train quite slowly and the quality will likely not be that great.
+If you would like to train a fully featured model, please refer to the instructions below
+on how to train on your own machine.
+
+| Description      | Link |
+| ----------- | ----------- |
+| Process a video into a dataset| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/nerfies/blob/main/notebooks/Nerfies_Capture_Processing.ipynb)|
+| Train HyperNeRF| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/hypernerf/blob/main/notebooks/HyperNeRF_Training.ipynb)|
+| Render HyperNeRF Videos| [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/google/hypernerf/blob/main/notebooks/HyperNeRF_Render_Video.ipynb)|
 
 
 ## Setup
