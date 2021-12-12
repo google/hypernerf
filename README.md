@@ -87,10 +87,16 @@ The dataset uses the [same format as Nerfies](https://github.com/google/nerfies#
 ## Citing
 If you find our work useful, please consider citing:
 ```BibTeX
-@article{park2021hypernerf
-  author    = {Park, Keunhong and Sinha, Utkarsh and Hedman, Peter and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Martin-Brualla, Ricardo and Seitz, Steven M.},
-  title     = {HyperNeRF: A Higher-Dimensional Representation for Topologically Varying Neural Radiance Fields},
-  journal   = {arXiv preprint arXiv:2106.13228},
-  year      = {2021},
+@article{park2021hypernerf,
+author = {Park, Keunhong and Sinha, Utkarsh and Hedman, Peter and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Martin-Brualla, Ricardo and Seitz, Steven M.},
+title = {HyperNeRF: A Higher-Dimensional Representation for Topologically Varying Neural Radiance Fields},
+journal = {ACM Trans. Graph.},
+issue_date = {December 2021},
+publisher = {ACM},
+volume = {40},
+number = {6},
+month = {dec},
+year = {2021},
+articleno = {238},
 }
 ```
