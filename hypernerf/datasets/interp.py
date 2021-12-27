@@ -14,7 +14,7 @@
 
 """Casual Volumetric Capture datasets.
 
-Note: Please benchmark before submitted changes to this module. It's very easy
+Note: Please benchmark before submitting changes to this module. It's very easy
 to introduce data loading bottlenecks!
 """
 import json
