@@ -14,5 +14,5 @@ opt-einsum==3.3.0
 optax==0.0.9
 Pillow==9.0.0
 scipy==1.7.1
-tensorflow==2.6.1
+tensorflow==2.6.3
 tqdm==4.62.2
