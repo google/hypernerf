@@ -285,7 +285,7 @@ def points_bounding_size(points):
 def shard(xs, device_count=None):
   """Split data into shards for multiple devices along the first dimension."""
   if device_count is None:
-    jax.local_device_count()
+    device_count = jax.local_device_count()
   return jax.tree_map(lambda x: x.reshape((device_count, -1) + x.shape[1:]), xs)
 
 
