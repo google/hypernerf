@@ -600,7 +600,7 @@ class DataSource(abc.ABC):
       scale_factor: a scale factor to apply to the camera.
 
     Returns:
-      A dictionary containing one of more of the following items:
+      A dictionary containing one or more of the following items:
         `rgb`: the RGB pixel values of each ray.
         `rays_dir`: the direction of each ray.
         `rays_origin`: the origin of each ray.
